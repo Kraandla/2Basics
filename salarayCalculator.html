@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <h1>Salary Calculator</h1>
+    <p>Enter your gross salary</p>
+    <input id="grossSalary" placeholder="Enter gross salary" />
+    <button type="submit" id="calculate">Calculate net salary</button>
+    <p>Result:</p>
+    <p id="result"></p>
+    
+    <script>
+        //Palga kalkulaator
+        //1. Sina sisestad brutotasu ja valem arvutab v채lja netotasu.
+        //2. Kokku peab olema kolm erinevat meetodit. 
+        // Enne kui meetod algab, siis peab olema kontroll, 
+        // et millist meetodi hakatakse kasutama ja sisestatud palgasumma 
+        // peab minema edasi j채rgmisse meetodi.
+        //3. Netotasu peab arvutama selliselt v채lja, et sina ei peaks 
+        // tuludeklaratsiooni ajal juurde maksma ega saa p채rast riigilt raha 
+        // juurde kuna oled rohkem maksnud.
+        //4. Kood peab olema inglisekeelne.
+        //Palgakalkulaator:
+        //https://www.kalkulaator.ee/et/palgakalkulaator
+        //Palga arvutamise valem:
+        //https://www.emta.ee/et/maksuvaba-tulu
+        
+        let btnNetCalculation = document.getElementById("calculate");
+
+        btnNetCalculation.addEventListener("click", function() {
+            let userGrossSalary = document.getElementById("grossSalary").value;
+            console.log(userGrossSalary);
+            console.log(document.getElementById("grossSalary").value);
+
+            const unemploymentTax = 0.016;
+            const pensionTax = 0.02;
+            const incomeTax = 0.22;
+            const taxExemption = 654;
+
+            let pension = userGrossSalary * pensionTax;
+            let unemployment = userGrossSalary * unemploymentTax;
+            let taxBetween = taxExemption - 0.72667 * (userGrossSalary - 1200) 
+
+            let calculateIncomeTaxBySalary0 = (userGrossSalary - pension - unemployment) * incomeTax;
+            let calculateIncomeTaxBySalaryExemption = (userGrossSalary - pension - unemployment - taxExemption) * incomeTax;
+            let calculateIncomeTaxBySalaryExemptionBetween = (userGrossSalary - pension - unemployment - taxBetween) * incomeTax;
+
+            let calculateNetSalary = 0;
+            if (userGrossSalary - pension - unemployment < taxExemption){
+                calculateNetSalary = userGrossSalary - pension - unemployment;
+            }
+            else if (userGrossSalary <= 1200) {
+                calculateNetSalary = userGrossSalary - pension - unemployment - calculateIncomeTaxBySalaryExemption;
+               
+            }
+            else if ( userGrossSalary >= 1201 && userGrossSalary <= 2099) {
+                calculateNetSalary = userGrossSalary - pension - unemployment - calculateIncomeTaxBySalaryExemptionBetween;
+                
+            }
+            else {
+                calculateNetSalary = userGrossSalary - pension - unemployment - calculateIncomeTaxBySalary0;
+                
+            }
+            document.getElementById("result").innerHTML = calculateNetSalary.toFixed(2);
+            console.log(calculateNetSalary);
+        });
+
+    </script>
+</body>
+</html>
+
